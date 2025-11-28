@@ -35,6 +35,7 @@ Class {
 		'menu',
 		'notebook',
 		'currentLevelString',
+		'currentPushCount',
 		'currentBoardElement',
 		'currentMoveCount',
 		'currentLevel',
@@ -7849,9 +7850,24 @@ MygSkGameManager >> currentMoveCount [
 ]
 
 { #category : 'accessing' }
-MygSkGameManager >> currentMoveCount: aNumber [
+MygSkGameManager >> currentMoveCount: aNumber [ 
 
-	currentMoveCount:= aNumber 
+   currentMoveCount := aNumber 
+
+]
+
+{ #category : 'accessing' }
+MygSkGameManager >> currentPushCount [ 
+    
+    ^ currentPushCount 
+
+]
+
+{ #category : 'accessing' }
+MygSkGameManager >> currentPushCount: aNumber [ 
+
+    currentPushCount := aNumber 
+
 ]
 
 { #category : 'initialization' }
@@ -7859,6 +7875,7 @@ MygSkGameManager >> initialize [
 
 	super initialize.
 	currentMoveCount := 0.
+	currentPushCount := 0.
 	self initializePackDictionary
 ]
 
@@ -7889,6 +7906,7 @@ MygSkGameManager >> launchFromString: aString [
 
 	| board |
 	self currentMoveCount: 0.
+	self currentPushCount: 0. 
 	self currentLevelString: aString.
 	self currentBoardElement: MygSkBoardElement new.
 	board := MygSkBoard

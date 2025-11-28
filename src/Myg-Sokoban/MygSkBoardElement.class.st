@@ -298,34 +298,37 @@ MygSkBoardElement >> initializeForegroundLayerPreview [
 ]
 
 { #category : 'initialization' }
-MygSkBoardElement >> manageEvent: anEvent [
+MygSkBoardElement >> manageEvent: anEvent [ 
 
-	| player moved direction neighborElement elements |
-	anEvent key name = #SPACE ifTrue: [ ^ self resetBoard ].
-	anEvent key name = #ESCAPE ifTrue: [ ^ self space close ].
-	board isFinished ifTrue: [ ^ self ].
-	player := self board player.
-	direction := self directionDict
-		             at: anEvent key name
-		             ifAbsent: [ ^ self ].
-	elements := self
-		            elementsToUpdateAtPosition: player position
-		            goingIn: direction.
-	neighborElement := elements second.
-	
-	moved := player move: direction.
+    | player moved direction neighborElement elements |
+    anEvent key name = #SPACE ifTrue: [ ^ self resetBoard ].
+    anEvent key name = #ESCAPE ifTrue: [ ^ self space close ].
+    board isFinished ifTrue: [ ^ self ].
+    player := self board player.
+    direction := self directionDict
+                     at: anEvent key name
+                     ifAbsent: [ ^ self ].
+    elements := self
+                    elementsToUpdateAtPosition: player position
+                    goingIn: direction.
+    neighborElement := elements second.
+    
+    moved := player move: direction.
 
-	
+    (moved and: [ neighborElement box class = MygSkBox ])
+        ifTrue: [
+            | animation |
+            animation := neighborElement boxAnimationMovingInDirection:
+                             direction.
+            neighborElement addAnimation: (animation onFinishedDo: [
+                     neighborElement resetAnimation.
+                     self updateElements: elements.
+                     self updateWindowTitle ]) ]
+        ifFalse: [
+            self updateElements: elements.
+            self updateWindowTitle
+        ]
 
-	(moved and: [ neighborElement box class = MygSkBox ])
-		ifTrue: [
-			| animation |
-			animation := neighborElement boxAnimationMovingInDirection:
-				             direction.
-			neighborElement addAnimation: (animation onFinishedDo: [
-					 neighborElement resetAnimation.
-					 self updateElements: elements ]) ]
-		ifFalse: [ self updateElements: elements ]
 ]
 
 { #category : 'opening' }
@@ -342,7 +345,8 @@ MygSkBoardElement >> openWithModel: aSkBoard [
 
 	space root background: Color red muchLighter.
 	space root layout: BlFrameLayout new.
-	space show
+	space show.
+	self updateWindowTitle 
 ]
 
 { #category : 'initialization' }
@@ -356,4 +360,20 @@ MygSkBoardElement >> resetBoard [
 MygSkBoardElement >> updateElements: anOrderedCollection [
 
 	anOrderedCollection do: [ :each | each boxForForeground updateBackgroundColor ]
+]
+
+{ #category : 'activation' }
+MygSkBoardElement >> updateWindowTitle [ 
+
+    | gm title |
+    self space ifNil: [ ^ self ].
+    gm := self board gameManager.
+    gm ifNil: [ ^ self ].
+
+    title := 'Sokoban - Moves: ', gm currentMoveCount asString.
+    (gm respondsTo: #currentPushCount)
+        ifTrue: [ title := title , '  Pushes: ' , gm currentPushCount asString ].
+
+    self space title: title
+
 ]
