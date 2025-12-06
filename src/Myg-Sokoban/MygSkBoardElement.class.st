@@ -357,9 +357,19 @@ MygSkBoardElement >> resetBoard [
 ]
 
 { #category : 'private' }
-MygSkBoardElement >> updateElements: anOrderedCollection [
+MygSkBoardElement >> updateElements: anOrderedCollection [ 
 
-	anOrderedCollection do: [ :each | each boxForForeground updateBackgroundColor ]
+	"Игнорируем список и просто обновляем все элементы.
+	Так мы гарантируем правильную картинку даже после телепорта."
+
+	| layer |
+	layer := self foregroundLayer.
+	layer childrenDo: [ :container |
+		| element |
+		element := container firstChild.
+		element boxForForeground.
+		element updateBackgroundColor ]
+
 ]
 
 { #category : 'activation' }

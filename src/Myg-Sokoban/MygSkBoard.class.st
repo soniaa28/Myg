@@ -236,6 +236,33 @@ MygSkBoard >> setPlayer [
 	player := grid contents detect: #isPlayer
 ]
 
+{ #category : 'accessing' }
+MygSkBoard >> teleports [ 
+
+	"Вернуть все телепорт-плитки на доске (в сетке и в background)."
+
+	| teleports |
+	teleports := OrderedCollection new.
+
+	"Телепорты, которые лежат прямо в grid"
+	self do: [ :each |
+		(each isKindOf: MygSkTeleport)
+			ifTrue: [ teleports add: each ] ].
+
+	"Телепорты, которые лежат как background у ящиков"
+	self boxes do: [ :box |
+		(box background isKindOf: MygSkTeleport)
+			ifTrue: [ teleports add: box background ] ].
+
+	"Телепорт под игроком (если он стоит на телепорте)"
+	player ifNotNil: [
+		(player background isKindOf: MygSkTeleport)
+			ifTrue: [ teleports add: player background ] ].
+
+	^ teleports asArray
+
+]
+
 { #category : 'move' }
 MygSkBoard >> updatePositionOf: aSkMovable from: previousPosition [
 	"Put back the previous position element."

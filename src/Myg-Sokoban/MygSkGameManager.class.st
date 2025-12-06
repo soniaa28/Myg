@@ -129,12 +129,13 @@ MygSkGameManager class >> mazesLoma [
 #   ####
 #  ##
 ####';
-		  at: 9 put: '####
-#@ ###
-# $$ ###
-# $ .  #
-## ..  #
- #######';
+ 			at: 9 put: '########
+#   T  #
+#  $   #
+#  @   #
+#   T  #
+#   .  #
+########';
 		  yourself
 ]
 
@@ -3670,13 +3671,13 @@ MygSkGameManager class >> mazesSasquatchIII [
 	^ IdentityDictionary new
 		  at: 1 put: ' #######
  #  *  #
- #  @  #
+ #T @  #
  ##$#.##
  #  #  #
  # $#. #
  #  #  #
 ## ## ##
-#  * * #
+#T * * #
 #   *  #
 ###   ##
   #####';
