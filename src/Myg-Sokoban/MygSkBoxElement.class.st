@@ -69,6 +69,38 @@ MygSkBoxElement class >> boxIconDarker [
 	^ Icons at: #boxIconDarker ifAbsentPut: [ self boxIcon darker darker ]
 ]
 
+{ #category : 'as yet unclassified' }
+MygSkBoxElement class >> boxIconWithLetter: aCharacter locked: isLocked [ 
+    | base copy canvas font textExtent pos rect |
+
+    "База: обычная или тёмная коробка"
+    base := isLocked
+        ifTrue: [ self boxIconDarker ]
+        ifFalse: [ self boxIcon ].
+
+    copy := base deepCopy.
+    canvas := FormCanvas on: copy.
+
+    "Тоже крупный шрифт"
+    font := (LogicalFont familyName: 'Source Sans Pro' pointSize: 40).
+
+    textExtent := (font widthOfString: aCharacter asString) @ font height.
+    pos := (copy extent - textExtent) // 2.
+
+    rect := (pos extent: textExtent) expandBy: 6.
+    canvas fillRectangle: rect
+        color: (Color black alpha: 0.4).
+
+    canvas
+        drawString: aCharacter asString
+        at: pos
+        font: font
+        color: Color white.
+
+    ^ copy
+
+]
+
 { #category : 'class initialization' }
 MygSkBoxElement class >> initialize [ 
 
@@ -165,6 +197,36 @@ MygSkBoxElement class >> targetIconContents [
 	"Private - Method generated with the content of the file File @ /Users/enzo/Documents/Pharo/images/P11 Sokoban/Icons/target.png"
 
 	^ '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'
+]
+
+{ #category : 'as yet unclassified' }
+MygSkBoxElement class >> targetIconWithLetter: aCharacter [ 
+    | base copy canvas font textExtent pos rect |
+
+    base := self targetIcon.
+    copy := base deepCopy.
+    canvas := FormCanvas on: copy.
+
+    "КРУПНЫЙ шрифт, можно ещё больше, например 44"
+    font := (LogicalFont familyName: 'Source Sans Pro' pointSize: 40).
+
+    textExtent := (font widthOfString: aCharacter asString) @ font height.
+    pos := (copy extent - textExtent) // 2.
+
+    "Тёмная подложка под букву, чтобы её было видно"
+    rect := (pos extent: textExtent) expandBy: 6.
+    canvas fillRectangle: rect
+        color: (Color black alpha: 0.4).
+
+    "Белая большая буква по центру"
+    canvas
+        drawString: aCharacter asString
+        at: pos
+        font: font
+        color: Color white.
+
+    ^ copy
+
 ]
 
 { #category : 'accessing - icons' }

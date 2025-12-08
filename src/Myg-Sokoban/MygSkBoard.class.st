@@ -19,7 +19,8 @@ Class {
 		'player',
 		'boxes',
 		'ended',
-		'gameManager'
+		'gameManager',
+		'nextLetterToLock'
 	],
 	#category : 'Myg-Sokoban-Model',
 	#package : 'Myg-Sokoban',
@@ -128,12 +129,17 @@ MygSkBoard >> boxes: aCollection [
 ]
 
 { #category : 'accessing' }
-MygSkBoard >> configureGrid: aCTNewArray2D [
+MygSkBoard >> configureGrid: aCTNewArray2D [ 
 
 	super configureGrid: aCTNewArray2D.
+
+	"При загрузке/ресете уровня начинаем последовательность с A"
+	nextLetterToLock := 1.
+
 	self
 		setBoxes;
 		setPlayer
+
 ]
 
 { #category : 'building' }
@@ -178,7 +184,8 @@ MygSkBoard >> initialize [
 
 	super initialize.
 	ended := false.
-	boxes := OrderedCollection new
+	boxes := OrderedCollection new.
+	nextLetterToLock := 1.
 ]
 
 { #category : 'testing' }
@@ -266,23 +273,58 @@ MygSkBoard >> teleports [
 
 ]
 
+{ #category : 'as yet unclassified' }
+MygSkBoard >> updateNumberedBoxAfterMove: aBox [ 
+	 | bg |
+    (aBox isKindOf: MygSkNumberedBox) ifFalse: [ ^ self ].
+
+    bg := aBox background.
+
+    "Если коробка вообще НЕ на нумерованной цели – она точно не готова"
+    (bg isKindOf: MygSkNumberedTarget) ifFalse: [
+        aBox unlock.
+        ^ self
+    ].
+
+    "Если стоит на своей нумерованной цели"
+    (bg orderIndex = aBox orderIndex
+        and: [ aBox orderIndex = nextLetterToLock ]) 
+        ifTrue: [
+            "И РОВНО эта буква сейчас по очереди – помечаем как готовую"
+            aBox lockAsCompleted.
+            nextLetterToLock := nextLetterToLock + 1
+        ]
+        ifFalse: [
+            "Стоит не на своей цели ИЛИ не в правильном порядке – остаётся обычной"
+            aBox unlock
+        ].
+]
+
 { #category : 'move' }
-MygSkBoard >> updatePositionOf: aSkMovable from: previousPosition [
+MygSkBoard >> updatePositionOf: aSkMovable from: previousPosition [ 
 	"Put back the previous position element."
 
 	self
 		atColumn: previousPosition x
 		atRow: previousPosition y
 		put: aSkMovable background.
+
 	"put the current position element as previous background of the moving element."
 	aSkMovable background:
 		(self atColumn: aSkMovable position x atRow: aSkMovable position y).
+
 	"finally place the moving element to its new location"
 	self
 		atColumn: aSkMovable position x
 		atRow: aSkMovable position y
 		put: aSkMovable.
+
+	"если сдвинулась нумерованная коробка – обновляем её состояние"
+	(aSkMovable isKindOf: MygSkNumberedBox)
+		ifTrue: [ self updateNumberedBoxAfterMove: aSkMovable ].
+
 	self isFinished ifTrue: [ self endGame ]
+
 ]
 
 { #category : 'accessing' }
