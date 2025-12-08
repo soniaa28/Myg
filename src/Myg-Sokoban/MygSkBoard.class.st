@@ -184,7 +184,10 @@ MygSkBoard >> initialize [
 { #category : 'testing' }
 MygSkBoard >> isFinished [
 
-	^ self boxes allSatisfy: [ :each | each background isTarget ]
+^ self boxes notEmpty
+		and: [
+			self boxes allSatisfy: [ :box | box isOnCorrectTarget ] 
+			]
 ]
 
 { #category : 'move' }
@@ -225,9 +228,9 @@ MygSkBoard >> reset [
 ]
 
 { #category : 'initialization' }
-MygSkBoard >> setBoxes [
+MygSkBoard >> setBoxes [ 
+	self boxes: (grid select: [ :e | e isKindOf: MygSkBox ]).
 
-	self boxes: (grid select: [ :e | e class = MygSkBox ]).
 ]
 
 { #category : 'initialization' }

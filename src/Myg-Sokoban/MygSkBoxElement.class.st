@@ -75,6 +75,22 @@ MygSkBoxElement class >> initialize [
 	Icons :=Dictionary new 
 ]
 
+{ #category : 'as yet unclassified' }
+MygSkBoxElement class >> pairedBoxIcon [ 
+	^ Icons
+		at: #pairedBoxIcon
+		ifAbsentPut: [ self boxIcon tinted: Color blue ]
+
+]
+
+{ #category : 'as yet unclassified' }
+MygSkBoxElement class >> pairedTargetIcon [ 
+	^ Icons
+		at: #pairedTargetIcon
+		ifAbsentPut: [ self targetIcon tinted: Color red ]
+
+]
+
 { #category : 'accessing - icons' }
 MygSkBoxElement class >> playerDownIcon [
 	"Private - Generated method"

@@ -70,6 +70,16 @@ MygSkBox >> isBox [
 	^ true
 ]
 
+{ #category : 'testing' }
+MygSkBox >> isOnCorrectTarget [ 
+	^ self background class = MygSkTarget
+]
+
+{ #category : 'testing' }
+MygSkBox >> isSpecialBox [ 
+	^ false
+]
+
 { #category : 'default encoding' }
 MygSkBox >> textualMapCharacter [
 
