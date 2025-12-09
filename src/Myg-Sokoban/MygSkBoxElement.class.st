@@ -229,6 +229,43 @@ MygSkBoxElement class >> targetIconWithLetter: aCharacter [
 
 ]
 
+{ #category : 'as yet unclassified' }
+MygSkBoxElement class >> teleportIcon [
+    "Зелёная плитка телепорта с большой буквой T."
+
+    | form canvas font textExtent pos rect |
+
+    "Берём такой же размер, как у других иконок (у тебя 200x200)"
+    form := Form extent: 200@200 depth: 32.
+    canvas := FormCanvas on: form.
+
+    "Фон телепорта — светло-зелёный"
+    canvas
+        fillRectangle: form boundingBox
+        color: (Color green muchLighter).
+
+    "Крупный шрифт (можешь поменять familyName при желании)"
+    font := (LogicalFont familyName: 'Source Sans Pro' pointSize: 40).
+
+    textExtent := (font widthOfString: 'T') @ font height.
+    pos := (form extent - textExtent) // 2.
+
+    "Лёгкая тёмная подложка под буквой, чтобы она читалась"
+    rect := (pos extent: textExtent) expandBy: 6.
+    canvas
+        fillRectangle: rect
+        color: (Color black alpha: 0.35).
+
+    "Рисуем белую букву T по центру"
+    canvas
+        drawString: 'T'
+        at: pos
+        font: font
+        color: Color white.
+
+    ^ form
+]
+
 { #category : 'accessing - icons' }
 MygSkBoxElement class >> wallIcon [
 	"Private - Generated method"

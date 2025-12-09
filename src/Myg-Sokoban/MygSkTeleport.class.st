@@ -15,11 +15,8 @@ MygSkTeleport class >> textualMapCharacter [
 ]
 
 { #category : 'accessing' }
-MygSkTeleport >> backgroundRepresentation [ 
-
-	"Просто зелёная плитка для фона.
-	Потом можно поменять на иконку."
-	^ Color green muchLighter
+MygSkTeleport >> backgroundRepresentation [
+    ^ MygSkBoxElement teleportIcon
 
 ]
 
