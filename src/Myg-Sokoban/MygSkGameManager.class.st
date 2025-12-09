@@ -56,6 +56,35 @@ MygSkGameManager class >> importFromString: aString [
 	^ tmp
 ]
 
+{ #category : 'as yet unclassified' }
+MygSkGameManager class >> mazesAdvanced [
+    "Новый набор уровней с телепортами / особыми ящиками / буквами"
+
+    ^ IdentityDictionary new
+        at: 1 put: '########
+#   T  #
+#  $ . #
+# @   T#
+########';
+        at: 2 put: '########
+#  A  B#
+#  a  b#
+#   @  #
+########';
+        at: 3 put: '###########
+#   A B C#
+# a b c @#
+#       ##
+###########';
+        at: 4 put: '###########
+#  T   A #
+# $   a  #
+#   T B  #
+# @   b  #
+###########';
+        yourself
+]
+
 { #category : 'mazes' }
 MygSkGameManager class >> mazesLoma [
 	"hsasquatch/sokoban/loma.html"
@@ -7888,7 +7917,8 @@ MygSkGameManager >> initializePackDictionary [
 			('mazesSasquatchIV' -> MygSkLevelPack new).
 			('mazesSasquatchV' -> MygSkLevelPack new).
 			('mazesSasquatchVI' -> MygSkLevelPack new).
-			('mazesUAlberta' -> MygSkLevelPack new) } asDictionary
+			('mazesUAlberta' -> MygSkLevelPack new).
+			 ('mazesAdvanced'    -> MygSkLevelPack new)} asDictionary
 ]
 
 { #category : 'as yet unclassified' }

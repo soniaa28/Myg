@@ -25,6 +25,7 @@ MygResources class >> initializePacks [
 		         at: 'SasquatchVI'
 		         put: (self setUpPack: 'mazesSasquatchVI');
 		         at: 'UAlberta' put: (self setUpPack: 'mazesUAlberta');
+					at: 'Advanced'    put: (self setUpPack: 'mazesAdvanced'); 
 		yourself
 ]
 
@@ -34,6 +35,30 @@ MygResources class >> levelMethodTemplate [
 	^ 'pack{1}Level{2} 
 	"Private - Method generated with MygResources"
 	^ {3}'
+]
+
+{ #category : 'as yet unclassified' }
+MygResources class >> packAdvancedLevel1 [
+    "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
+    ^ self packLomaLevel1
+]
+
+{ #category : 'as yet unclassified' }
+MygResources class >> packAdvancedLevel2 [
+    "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
+    ^ self packLomaLevel2
+]
+
+{ #category : 'as yet unclassified' }
+MygResources class >> packAdvancedLevel3 [
+    "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
+    ^ self packLomaLevel3
+]
+
+{ #category : 'as yet unclassified' }
+MygResources class >> packAdvancedLevel4 [
+    "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
+    ^ self packLomaLevel4
 ]
 
 { #category : 'private - contents' }

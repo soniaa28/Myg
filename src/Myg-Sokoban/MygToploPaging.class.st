@@ -65,7 +65,7 @@ MygToploPaging class >> levelPaging [
 { #category : 'as yet unclassified' }
 MygToploPaging class >> packNames [ 
 
-	^ {'Loma' .'Microban' . 'Pack' . 'Sasquatch' . 'SasquatchIII'. 'SasquatchIV'. 'SasquatchV'. 'SasquatchVI'. 'UAlberta' }
+	^ {'Loma' .'Microban' . 'Pack' . 'Sasquatch' . 'SasquatchIII'. 'SasquatchIV'. 'SasquatchV'. 'SasquatchVI'. 'UAlberta' . 'Advanced' }
 ]
 
 { #category : 'as yet unclassified' }
