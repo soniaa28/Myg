@@ -61,6 +61,12 @@ MygResources class >> packAdvancedLevel4 [
     ^ self packLomaLevel4
 ]
 
+{ #category : 'as yet unclassified' }
+MygResources class >> packAdvancedLevel5 [
+    "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
+    ^ self packLomaLevel5
+]
+
 { #category : 'private - contents' }
 MygResources class >> packLomaLevel1 [ 
 	"Private - Method generated with MygResources"
