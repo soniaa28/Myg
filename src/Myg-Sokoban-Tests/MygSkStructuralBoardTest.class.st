@@ -2,12 +2,13 @@
 This class contains tests
 "
 Class {
-	#name : #MygSkStructuralBoardTest,
-	#superclass : #TestCase,
-	#category : #'Myg-Sokoban-Tests'
+	#name : 'MygSkStructuralBoardTest',
+	#superclass : 'TestCase',
+	#category : 'Myg-Sokoban-Tests',
+	#package : 'Myg-Sokoban-Tests'
 }
 
-{ #category : #data }
+{ #category : 'data' }
 MygSkStructuralBoardTest >> map1 [ 
 	"Pay attention that there is no return on the last line."
 ^ '    #####
@@ -23,7 +24,7 @@ MygSkStructuralBoardTest >> map1 [
     #######'
 ]
 
-{ #category : #'tests - building' }
+{ #category : 'tests - building' }
 MygSkStructuralBoardTest >> testAtPositionLowLevel [
 
 	| board |
@@ -45,7 +46,31 @@ MygSkStructuralBoardTest >> testAtPositionLowLevel [
 			 isKindOf: MygSkWall)
 ]
 
-{ #category : #'tests - building' }
+{ #category : 'tests' }
+MygSkStructuralBoardTest >> testBoxDoesNotTeleportWhenPushedOntoTeleport [
+	| board box |
+	board := MygSkBoard createWithBoard:
+		((MygLevelImporter
+			fromString: '#@$T#'
+			fromPackage: MygSkBoard package)
+			collect: [ :each | each configured ]).
+
+	box := board boxes first.
+
+	self assert: board player position equals: 2 @ 1.
+	self assert: box position equals: 3 @ 1.
+
+	board player moveEast.
+
+	self assert: board player position equals: 3 @ 1.
+
+	self assert: box position equals: 4 @ 1.
+
+	self assert: (box background isKindOf: MygSkTeleport).
+	self assert: board teleports size equals: 1.
+]
+
+{ #category : 'tests - building' }
 MygSkStructuralBoardTest >> testIsBoxOnTargetPlaygroundCorrectlySet [
 
 	| board box1 box2 |
@@ -59,7 +84,7 @@ MygSkStructuralBoardTest >> testIsBoxOnTargetPlaygroundCorrectlySet [
 	self assert: box2 background class equals: MygSkTarget
 ]
 
-{ #category : #'tests - building' }
+{ #category : 'tests - building' }
 MygSkStructuralBoardTest >> testIsBoxPlaygroundCorrectlySet [
 
 	| board |
@@ -73,7 +98,7 @@ MygSkStructuralBoardTest >> testIsBoxPlaygroundCorrectlySet [
 			self assert: anEl position y equals: anEl background position y ] ]
 ]
 
-{ #category : #'tests - building' }
+{ #category : 'tests - building' }
 MygSkStructuralBoardTest >> testIsPalyerOnTargetPlaygroundCorrectlySet [
 
 	| board box |
@@ -86,7 +111,7 @@ MygSkStructuralBoardTest >> testIsPalyerOnTargetPlaygroundCorrectlySet [
 	self assert: box background class equals: MygSkTarget
 ]
 
-{ #category : #'tests - building' }
+{ #category : 'tests - building' }
 MygSkStructuralBoardTest >> testIsPlayerPlaygroundCorrectlySet [
 
 	| board |
@@ -101,7 +126,7 @@ MygSkStructuralBoardTest >> testIsPlayerPlaygroundCorrectlySet [
 	self assert: board player background position y equals: 9
 ]
 
-{ #category : #'tests - building' }
+{ #category : 'tests - building' }
 MygSkStructuralBoardTest >> testPlayerIsAvailable [
 
 	| board |
@@ -113,7 +138,25 @@ MygSkStructuralBoardTest >> testPlayerIsAvailable [
 	self assert: board player position y equals: 9
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
+MygSkStructuralBoardTest >> testPlayerOnSingleTeleportDoesNotMoveFurther [
+	| board |
+	board := MygSkBoard createWithBoard:
+		((MygLevelImporter
+			fromString: '#@T#'
+			fromPackage: MygSkBoard package)
+			collect: [ :each | each configured ]).
+
+	
+	self assert: board player position equals: 2 @ 1.
+	self assert: board teleports size equals: 1.
+
+	
+	board player moveEast.
+	self assert: board player position equals: 3 @ 1.
+]
+
+{ #category : 'tests' }
 MygSkStructuralBoardTest >> testPrintOn [
 
 	| board |
@@ -134,7 +177,7 @@ MygSkStructuralBoardTest >> testPrintOn [
     #######        '
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 MygSkStructuralBoardTest >> testPrintOnOneLine [
 
 	| board |

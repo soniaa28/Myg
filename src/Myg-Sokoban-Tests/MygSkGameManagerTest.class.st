@@ -2,15 +2,16 @@
 This class contains tests
 "
 Class {
-	#name : #MygSkGameManagerTest,
-	#superclass : #TestCase,
+	#name : 'MygSkGameManagerTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'space'
 	],
-	#category : #'Myg-Sokoban-Tests'
+	#category : 'Myg-Sokoban-Tests',
+	#package : 'Myg-Sokoban-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 MygSkGameManagerTest >> ensureClose: aSpace [
 
 	self assert: (BlSpace pulseUntilEmptyTaskQueue: aSpace timeout: 200 milliSeconds).
@@ -20,14 +21,14 @@ MygSkGameManagerTest >> ensureClose: aSpace [
 	self assert: (BlSpace pulseUntilEmptyTaskQueue: aSpace timeout: 200 milliSeconds).
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 MygSkGameManagerTest >> tearDown [
 
 	space ifNotNil: [ self ensureClose: space ].
 	super tearDown 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 MygSkGameManagerTest >> testIsBoardReset [
 
 	| string manager boardElement |
@@ -46,7 +47,7 @@ MygSkGameManagerTest >> testIsBoardReset [
 	space := manager currentBoardElement space.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 MygSkGameManagerTest >> testMoveCount [
 
 	| string manager boardElement |
@@ -68,7 +69,32 @@ MygSkGameManagerTest >> testMoveCount [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
+MygSkGameManagerTest >> testPushBoxOntoTeleportCountsMoveAndPush [
+	| string manager boardElement board box |
+	string := '#@$T#'.
+	manager := MygSkGameManager new.
+	manager launchFromString: string.
+	boardElement := manager currentBoardElement.
+	board := boardElement board.
+	box := board boxes first.
+
+	self assert: manager currentMoveCount equals: 0.
+	self assert: manager currentPushCount equals: 0.
+	self assert: board player position equals: 2 @ 1.
+	self assert: box position equals: 3 @ 1.
+
+	board player moveEast.
+
+	self assert: board player position equals: 3 @ 1.
+	self assert: box position equals: 4 @ 1.
+
+	self assert: manager currentMoveCount equals: 1.
+
+	self assert: manager currentPushCount equals: 1.
+]
+
+{ #category : 'tests' }
 MygSkGameManagerTest >> testRegisterLevel [
 
 	| manager board string |
@@ -91,7 +117,7 @@ MygSkGameManagerTest >> testRegisterLevel [
 	space := manager currentBoardElement space.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 MygSkGameManagerTest >> testRegisterLevelWithBetterMoveCount [
 
 	| manager board string registered |
@@ -132,7 +158,7 @@ MygSkGameManagerTest >> testRegisterLevelWithBetterMoveCount [
 	space := manager currentBoardElement space.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 MygSkGameManagerTest >> testRegisterLevelWithWorseMoveCount [
 
 	| manager board string registered |
