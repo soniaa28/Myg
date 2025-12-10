@@ -70,6 +70,23 @@ MygSkGameManagerTest >> testMoveCount [
 ]
 
 { #category : 'tests' }
+MygSkGameManagerTest >> testMoveCountWithTeleport [
+	| string manager boardElement |
+	string := '#@TT#'.
+	manager := MygSkGameManager new.
+	manager launchFromString: string.
+	boardElement := manager currentBoardElement.
+
+	self assert: manager currentMoveCount equals: 0.
+	self assert: boardElement board player position equals: 2 @ 1.
+
+	boardElement board player moveEast.
+
+	self assert: boardElement board player position equals: 4 @ 1.
+	self assert: manager currentMoveCount equals: 1.
+]
+
+{ #category : 'tests' }
 MygSkGameManagerTest >> testPushBoxOntoTeleportCountsMoveAndPush [
 	| string manager boardElement board box |
 	string := '#@$T#'.

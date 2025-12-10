@@ -57,9 +57,11 @@ MygSkStructuralBoardTest >> testBoxDoesNotTeleportWhenPushedOntoTeleport [
 
 	box := board boxes first.
 
+	"До хода игрок @ на позиции 2, ящик $ на 3"
 	self assert: board player position equals: 2 @ 1.
 	self assert: box position equals: 3 @ 1.
 
+	"Толкаем ящик вправо на телепорт T"
 	board player moveEast.
 
 	self assert: board player position equals: 3 @ 1.
@@ -126,6 +128,23 @@ MygSkStructuralBoardTest >> testIsPlayerPlaygroundCorrectlySet [
 	self assert: board player background position y equals: 9
 ]
 
+{ #category : 'tests' }
+MygSkStructuralBoardTest >> testMoveCountWithTeleport [
+	| string manager boardElement |
+	string := '#@TT#'.
+	manager := MygSkGameManager new.
+	manager launchFromString: string.
+	boardElement := manager currentBoardElement.
+
+	self assert: manager currentMoveCount equals: 0.
+	self assert: boardElement board player position equals: 2 @ 1.
+
+	boardElement board player moveEast.
+
+	self assert: boardElement board player position equals: 4 @ 1.
+	self assert: manager currentMoveCount equals: 1.
+]
+
 { #category : 'tests - building' }
 MygSkStructuralBoardTest >> testPlayerIsAvailable [
 
@@ -139,6 +158,26 @@ MygSkStructuralBoardTest >> testPlayerIsAvailable [
 ]
 
 { #category : 'tests' }
+MygSkStructuralBoardTest >> testPlayerIsTeleportedToPair [ 
+
+	| board |
+	board := MygSkBoard createWithBoard:
+		         ((MygLevelImporter
+			          fromString: '#####
+#@T #
+#  T#
+#####'
+			          fromPackage: MygSkBoard package)
+			          collect: [ :each | each configured ]).
+
+	self assert: board player position equals: 2 @ 2.
+
+	board player moveEast.
+
+	self assert: board player position equals: 4 @ 3
+]
+
+{ #category : 'tests' }
 MygSkStructuralBoardTest >> testPlayerOnSingleTeleportDoesNotMoveFurther [
 	| board |
 	board := MygSkBoard createWithBoard:
@@ -147,11 +186,9 @@ MygSkStructuralBoardTest >> testPlayerOnSingleTeleportDoesNotMoveFurther [
 			fromPackage: MygSkBoard package)
 			collect: [ :each | each configured ]).
 
-	
 	self assert: board player position equals: 2 @ 1.
 	self assert: board teleports size equals: 1.
 
-	
 	board player moveEast.
 	self assert: board player position equals: 3 @ 1.
 ]
