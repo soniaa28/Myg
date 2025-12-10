@@ -39,32 +39,38 @@ MygResources class >> levelMethodTemplate [
 
 { #category : 'as yet unclassified' }
 MygResources class >> packAdvancedLevel1 [
-    "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
-    ^ self packLomaLevel1
+    "Превью для Advanced Level 1 из png-файла на диске."
+
+    ^ PNGReadWriter
+        formFromFileNamed: '/Users/soniademchuk/Desktop/level1.png'
 ]
 
 { #category : 'as yet unclassified' }
 MygResources class >> packAdvancedLevel2 [
     "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
-    ^ self packLomaLevel2
+ ^ PNGReadWriter
+        formFromFileNamed: '/Users/soniademchuk/Desktop/level2.png'
 ]
 
 { #category : 'as yet unclassified' }
 MygResources class >> packAdvancedLevel3 [
     "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
-    ^ self packLomaLevel3
+  ^ PNGReadWriter
+        formFromFileNamed: '/Users/soniademchuk/Desktop/level3.png'
 ]
 
 { #category : 'as yet unclassified' }
 MygResources class >> packAdvancedLevel4 [
     "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
-    ^ self packLomaLevel4
+   ^ PNGReadWriter
+        formFromFileNamed: '/Users/soniademchuk/Desktop/level4.png'
 ]
 
 { #category : 'as yet unclassified' }
 MygResources class >> packAdvancedLevel5 [
     "Превью для Advanced Level 1 – пока берём картинку из Loma 1"
-    ^ self packLomaLevel5
+ ^ PNGReadWriter
+        formFromFileNamed: '/Users/soniademchuk/Desktop/level5.png'
 ]
 
 { #category : 'private - contents' }
